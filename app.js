@@ -35,6 +35,12 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/dashboard", dashRoutes);
 app.use(blogRoutes);
 
+// @desc 404
+
+app.get("*", function (req, res) {
+  res.status(404).send("what???");
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () =>
