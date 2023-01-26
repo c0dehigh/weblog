@@ -6,8 +6,7 @@ const dotEnv = require("dotenv");
 const morgan = require("morgan");
 
 const connectDB = require("./config/db");
-const blogRoutes = require("./routes/blog");
-const dashRoutes = require("./routes/dashboard");
+const { urlencoded } = require("express");
 
 //* Load Config
 dotEnv.config({ path: "./config/config.env" });
@@ -31,9 +30,14 @@ app.set("views", "views");
 //* Static Folder
 app.use(express.static(path.join(__dirname, "public")));
 
+// Body pars
+
+app.use(express.urlencoded({ extended: false }));
+
 //* Routes
-app.use("/dashboard", dashRoutes);
-app.use(blogRoutes);
+app.use("/", require("./routes/blog"));
+app.use("/dashboard", require("./routes/dashboard"));
+app.use("/users", require("./routes/users"));
 
 // @desc 404
 
