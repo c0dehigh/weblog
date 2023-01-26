@@ -18,7 +18,7 @@ const schema = Yup.object().shape({
   email: Yup.string().email().required(),
   password: Yup.string().min(4).max(255).required(),
   confirmPassword: Yup.string()
-    .required()
+    .required("Confirm password")
     .oneOf([Yup.ref("password"), null]),
 });
 
