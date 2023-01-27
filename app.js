@@ -41,8 +41,8 @@ app.use("/users", require("./routes/users"));
 
 // @desc 404
 
-app.get("*", function (req, res) {
-  res.status(404).send("what???");
+app.use((req, res) => {
+  res.render("404page", { pageTitle: "Page not found", path: "/404" });
 });
 
 const PORT = process.env.PORT || 3000;
