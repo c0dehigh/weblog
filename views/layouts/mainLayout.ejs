@@ -9,7 +9,10 @@
     <link rel="stylesheet" href="/css/font-awesome.css" />
     <% if (path === '/login' || path === '/register') { %>
     <link rel="stylesheet" href="/css/signin.css" />
+    <% } %> <% if (path === '/404') { %>
+    <link rel="stylesheet" href="/css/404.css" />
     <% } %>
+
     <title><%= pageTitle %></title>
   </head>
   <body>
