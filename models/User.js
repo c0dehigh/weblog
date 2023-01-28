@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const Yup = require("yup");
+
+const { schema } = require("./validations/userValidator");
 
 const userSchema = new mongoose.Schema({
   fullname: {
@@ -25,15 +26,6 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-});
-
-const schema = Yup.object().shape({
-  fullname: Yup.string().required().min(4).max(255),
-  email: Yup.string().email().required(),
-  password: Yup.string().min(4).max(255).required(),
-  confirmPassword: Yup.string()
-    .required("Confirm password")
-    .oneOf([Yup.ref("password"), null]),
 });
 
 userSchema.statics.userValidation = function (body) {
