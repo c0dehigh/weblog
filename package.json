@@ -11,6 +11,7 @@
     "author": "Younes Ghorbany",
     "license": "MIT",
     "dependencies": {
+        "bcrypt": "^5.1.0",
         "dotenv": "^8.2.0",
         "ejs": "^3.1.5",
         "express": "^4.17.1",
