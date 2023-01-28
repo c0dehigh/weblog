@@ -9,23 +9,29 @@ exports.register = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
+  const errors = [];
   try {
     await User.userValidation(req.body);
-    // await User.create(req.body)
+    const { fullname, password, email } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+      errors.push({
+        message: "This email is already associated with an account.",
+      });
+      return res.render("register", {
+        pageTitle: "Register",
+        path: "/register",
+        errors,
+      });
+    }
+    await User.create(req.body);
     res.redirect("/users/login");
   } catch (error) {
-    const errors = [];
     error.inner.forEach((e) => {
       errors.push({
         name: e.path,
         message: e.message,
       });
-    });
-    console.log(typeof errors);
-    return res.render("register", {
-      pageTitle: "Register",
-      path: "/register",
-      errors,
     });
   }
 };
