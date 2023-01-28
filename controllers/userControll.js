@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
 
 exports.login = (req, res) => {
   res.render("login", { pageTitle: " Login ", path: "/login" });
@@ -24,8 +25,29 @@ exports.createUser = async (req, res) => {
         errors,
       });
     }
-    await User.create(req.body);
+
+    const hash = await bcrypt.hash(password, 10);
+
+    await User.create({
+      fullname,
+      email,
+      password: hash,
+    });
+
     res.redirect("/users/login");
+
+    // bcrypt.genSalt(10, (err, salt) => {
+    //   if (err) throw err;
+    //   bcrypt.hash(password, salt, async (err, hash) => {
+    //     if (err) throw err;
+    //     await User.create({
+    //       fullname,
+    //       email,
+    //       password: hash,
+    //     });
+    //     res.redirect("/users/login");
+    //   });
+    // });
   } catch (error) {
     error.inner.forEach((e) => {
       errors.push({
