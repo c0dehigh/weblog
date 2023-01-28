@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const Yup = require("yup");
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   fullname: {
     type: String,
     required: true,
@@ -26,6 +27,19 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model("User", UserSchema);
+const schema = Yup.object().shape({
+  fullname: Yup.string().required().min(4).max(255),
+  email: Yup.string().email().required(),
+  password: Yup.string().min(4).max(255).required(),
+  confirmPassword: Yup.string()
+    .required("Confirm password")
+    .oneOf([Yup.ref("password"), null]),
+});
+
+userSchema.statics.userValidation = function (body) {
+  return schema.validate(body, { abortEarly: false });
+};
+
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

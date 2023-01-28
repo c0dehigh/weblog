@@ -2,16 +2,7 @@ const { Router } = require("express");
 const Yup = require("yup");
 const router = new Router();
 
-// add schema for yup validator
 
-// const schema = Yup.object().shape({
-//   fullname: Yup.string().min(4).max(18).required("Please Enter name"),
-//   email: Yup.string().email().required("Please Enter email"),
-//   password: Yup.string().min(4).max(16).required("Try better password"),
-//   // confirmPassword: Yup.string()
-//   //   .required("Password not match")
-//   //   .oneOf([Yup.ref("password"), null]),
-// });
 
 const schema = Yup.object().shape({
   fullname: Yup.string().required().min(4).max(255),
