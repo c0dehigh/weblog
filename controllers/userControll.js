@@ -34,26 +34,21 @@ exports.createUser = async (req, res) => {
       password: hash,
     });
 
-    res.redirect("/users/login");
+            res.redirect("/users/login");
 
-    // bcrypt.genSalt(10, (err, salt) => {
-    //   if (err) throw err;
-    //   bcrypt.hash(password, salt, async (err, hash) => {
-    //     if (err) throw err;
-    //     await User.create({
-    //       fullname,
-    //       email,
-    //       password: hash,
-    //     });
-    //     res.redirect("/users/login");
-    //   });
-    // });
+
   } catch (error) {
     error.inner.forEach((e) => {
       errors.push({
         name: e.path,
         message: e.message,
       });
+    });
+
+    return res.render("register", {
+      pageTitle: "Register",
+      path: "/register",
+      errors,
     });
   }
 };
