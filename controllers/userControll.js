@@ -2,7 +2,11 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
 exports.login = (req, res) => {
-  res.render("login", { pageTitle: " Login ", path: "/login" });
+  res.render("login", {
+    pageTitle: " Login ",
+    path: "/login",
+    message: req.flash("success_msg"),
+  });
 };
 
 exports.register = async (req, res) => {
@@ -33,10 +37,8 @@ exports.createUser = async (req, res) => {
       email,
       password: hash,
     });
-
-            res.redirect("/users/login");
-
-
+    req.flash("success_msg", "Register successfully");
+    res.redirect("/users/login");
   } catch (error) {
     error.inner.forEach((e) => {
       errors.push({
