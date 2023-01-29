@@ -6,5 +6,5 @@ exports.schema = Yup.object().shape({
   password: Yup.string().min(4).max(255).required(),
   confirmPassword: Yup.string()
     .required("Confirm password")
-    .oneOf([Yup.ref("password"), null]),
+    .oneOf([Yup.ref("password"), null], "Confirm Password not match"),
 });
