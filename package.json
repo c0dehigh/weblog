@@ -20,6 +20,8 @@
         "express-session": "^1.17.3",
         "mongoose": "^5.10.9",
         "morgan": "^1.10.0",
+        "passport": "^0.6.0",
+        "passport-local": "^1.0.0",
         "yup": "^0.32.11"
     },
     "devDependencies": {
