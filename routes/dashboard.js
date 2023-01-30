@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const {auth} = require('../middlewares/auth')
 
 const router = new Router();
 
@@ -6,7 +7,7 @@ const router = new Router();
 
 //@route GET /dashboard
 
-router.get("/", (req, res) => {
+router.get("/",auth, (req, res) => {
   res.render("dashboard", {
     pageTitle: "Admin | Dashboard",
     path: "/dashboard",
