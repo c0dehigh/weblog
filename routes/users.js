@@ -1,6 +1,5 @@
 const { Router } = require("express");
 
-
 const userControll = require("../controllers/userControll");
 const router = new Router();
 
@@ -8,6 +7,11 @@ const router = new Router();
 // @route  GET /users/login
 
 router.get("/login", userControll.login);
+
+// @desc Login handeler
+// @route  POST /users/login
+
+router.post("/login", userControll.handleLogin);
 
 // @desc register page
 // @route  GET /users/register
