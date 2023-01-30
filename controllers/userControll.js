@@ -1,3 +1,4 @@
+const passport = require("passport");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
@@ -6,11 +7,20 @@ exports.login = (req, res) => {
     pageTitle: " Login ",
     path: "/login",
     message: req.flash("success_msg"),
+    error: req.flash("error"),
   });
 };
 
 exports.register = async (req, res) => {
   res.render("register", { pageTitle: " Register ", path: "/register" });
+};
+
+exports.handleLogin = (req, res, next) => {
+  passport.authenticate("local", {
+    successRedirect: "/dashboard",
+    failureRedirect: "/users/login",
+    failureFlash: true,
+  })(req, res, next);
 };
 
 exports.createUser = async (req, res) => {
