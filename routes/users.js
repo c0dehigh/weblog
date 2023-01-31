@@ -12,7 +12,7 @@ router.get("/login", userControll.login);
 // @desc Login handeler
 // @route  POST /users/login
 
-router.post("/login", userControll.handleLogin);
+router.post("/login", userControll.handleLogin, userControll.rememberMe);
 
 // @desc logout handeler
 // @route  GET /users/login
