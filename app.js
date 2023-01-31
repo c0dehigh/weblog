@@ -1,5 +1,5 @@
 const path = require("path");
-
+const mongoose = require("mongoose");
 const express = require("express");
 const expressLayout = require("express-ejs-layouts");
 const dotEnv = require("dotenv");
@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const flash = require("connect-flash");
 const passport = require("passport");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
 const connectDB = require("./config/db");
 const { urlencoded } = require("express");
@@ -46,9 +47,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
     secret: "secret",
-    cookie: { maxAge: 60000 },
+    // cookie: { maxAge: 60000 },
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1/blog_db" }),
   })
 );
 
