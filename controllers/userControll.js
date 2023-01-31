@@ -23,6 +23,17 @@ exports.handleLogin = (req, res, next) => {
   })(req, res, next);
 };
 
+exports.logout = (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      req.flash("success_msg", "success logout");
+      res.redirect("/users/login");
+    }
+  });
+};
+
 exports.createUser = async (req, res) => {
   const errors = [];
   try {
