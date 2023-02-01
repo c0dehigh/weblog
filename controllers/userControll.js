@@ -1,6 +1,6 @@
 const passport = require("passport");
 const User = require("../models/User");
-const bcrypt = require("bcrypt");
+//  const bcrypt = require("bcrypt");
 
 exports.login = (req, res) => {
   res.render("login", {
@@ -60,12 +60,12 @@ exports.createUser = async (req, res) => {
       });
     }
 
-    const hash = await bcrypt.hash(password, 10);
+    //  const hash = await bcrypt.hash(password, 10);
 
     await User.create({
       fullname,
       email,
-      password: hash,
+      password,
     });
     req.flash("success_msg", "Register successfully");
     res.redirect("/users/login");
