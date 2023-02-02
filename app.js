@@ -4,6 +4,7 @@ const debug = require("debug")("Weblog");
 const express = require("express");
 const expressLayout = require("express-ejs-layouts");
 const dotEnv = require("dotenv");
+const bodyparser = require("body-parser");
 const morgan = require("morgan");
 const flash = require("connect-flash");
 const passport = require("passport");
@@ -44,7 +45,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Body pars
 
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.json());
 
 // session
 
