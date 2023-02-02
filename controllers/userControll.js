@@ -1,5 +1,7 @@
 const passport = require("passport");
 const User = require("../models/User");
+const fetch = require("node-fetch");
+const { log } = require("winston");
 //  const bcrypt = require("bcrypt");
 
 exports.login = (req, res) => {
@@ -15,12 +17,38 @@ exports.register = async (req, res) => {
   res.render("register", { pageTitle: " Register ", path: "/register" });
 };
 
-exports.handleLogin = (req, res, next) => {
-  passport.authenticate("local", {
-    //   successRedirect: "/dashboard",
-    failureRedirect: "/users/login",
-    failureFlash: true,
-  })(req, res, next);
+exports.handleLogin = async (req, res, next) => {
+  if (!req.body["g-recaptcha-response"]) {
+    req.flash("error", "Are You ROBOT ?!!!!");
+    return res.redirect("/users/login");
+  }
+
+  const secretKey = process.env.CAPTCHA_SECRET;
+  const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body["g-recaptcha-response"]}
+  &remoteip=${req.connection.remoteAddress}`;
+
+  const response = await fetch(verifyUrl, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/x-www-form-urlencoded: charset=utf-8",
+    },
+  });
+
+  const json = await response.json();
+
+  console.log(json);
+
+  if (json.success) {
+    passport.authenticate("local", {
+      //   successRedirect: "/dashboard",
+      failureRedirect: "/users/login",
+      failureFlash: true,
+    })(req, res, next);
+  } else {
+    req.flash("error", "Google recaptcha problem");
+    res.redirect("/users/login");
+  }
 };
 
 exports.rememberMe = (req, res) => {
