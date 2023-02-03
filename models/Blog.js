@@ -5,7 +5,7 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    minlength: 8,
+    minlength: 2,
     maxlength: 255,
   },
 
@@ -31,4 +31,4 @@ const blogSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Blob", blogSchema);
+module.exports = mongoose.model("Blog", blogSchema);
