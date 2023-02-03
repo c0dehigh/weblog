@@ -29,7 +29,7 @@ const app = express();
 
 //* Logging
 if (process.env.NODE_ENV === "development") {
-  debug("Morgan Enable");
+  //  debug("Morgan Enable");
   app.use(morgan("combined", { stream: winston.stream }));
 }
 
@@ -51,7 +51,7 @@ app.use(bodyparser.json());
 
 app.use(
   session({
-    secret: "secret",
+    secret: process.env.SESSION_SECRET,
     // cookie: { maxAge: 60000 },
     resave: false,
     saveUninitialized: false,
@@ -73,11 +73,9 @@ app.use("/", require("./routes/blog"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/users", require("./routes/users"));
 
-// @desc 404
+// 404
 
-app.use((req, res) => {
-  res.render("404page", { pageTitle: "Page not found", path: "/404" });
-});
+app.use(require("./controllers/errorController").get404);
 
 const PORT = process.env.PORT || 3000;
 
