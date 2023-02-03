@@ -1,5 +1,5 @@
 const path = require("path");
-const mongoose = require("mongoose");
+
 const debug = require("debug")("Weblog");
 const express = require("express");
 const expressLayout = require("express-ejs-layouts");
@@ -13,14 +13,13 @@ const MongoStore = require("connect-mongo");
 const winston = require("./config/winston");
 
 const connectDB = require("./config/db");
-const { urlencoded } = require("express");
 
 //* Load Config
 dotEnv.config({ path: "./config/config.env" });
 
 //* Database connection
 connectDB();
-debug("Database Coneccted");
+debug("Database Connected");
 
 // Passport Config
 
