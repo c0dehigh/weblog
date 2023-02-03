@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { auth } = require("../middlewares/auth");
+const adminController = require("../controllers/adminController");
 
 const router = new Router();
 
@@ -7,13 +8,18 @@ const router = new Router();
 
 //@route GET /dashboard
 
-router.get("/", auth, (req, res) => {
-  res.render("dashboard", {
-    pageTitle: "Admin | Dashboard",
-    path: "/dashboard",
-    layout: "./layouts/dashLayout",
-    fullname: req.user.fullname,
-  });
-});
+router.get("/", auth, adminController.getDashboard);
+
+// @desc Add new post
+
+//@route GET /dashboard/add-post
+
+router.get("/add-post", auth, adminController.getAddPost);
+
+// @desc dashboard create post
+
+//@route POST /dashboard/add-post
+
+router.post("/add-post", auth, adminController.createPost);
 
 module.exports = router;
