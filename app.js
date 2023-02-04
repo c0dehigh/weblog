@@ -55,6 +55,7 @@ app.use(
     // cookie: { maxAge: 60000 },
     resave: false,
     saveUninitialized: false,
+    unset: "destroy",
     store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1/blog_db" }),
   })
 );

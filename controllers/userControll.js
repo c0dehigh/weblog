@@ -65,7 +65,8 @@ exports.logout = (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      req.flash("success_msg", "success logout");
+      req.session = null;
+      //    req.flash("success_msg", "success logout");
       res.redirect("/users/login");
     }
   });
