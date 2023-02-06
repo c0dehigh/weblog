@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const { schema } = require("./validations/postValidation");
 const blogSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -30,5 +30,9 @@ const blogSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+blogSchema.statics.postValidation = function (body) {
+  return schema.validate(body, { abortEarly: false });
+};
 
 module.exports = mongoose.model("Blog", blogSchema);

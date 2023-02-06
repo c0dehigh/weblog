@@ -1,6 +1,5 @@
 const Blog = require("../models/Blog");
 const { get500 } = require("./errorController");
-const { get } = require("mongoose");
 
 exports.getDashboard = async (req, res) => {
   try {
@@ -26,10 +25,26 @@ exports.getAddPost = (req, res) => {
 };
 
 exports.createPost = async (req, res) => {
+  const errorArr = [];
+
   try {
+    await Blog.postValidation(req.body);
     await Blog.create({ ...req.body, user: req.user.id });
     res.redirect("/dashboard");
   } catch (err) {
-    get500(req, res);
+    console.log(err);
+    err.inner.forEach((e) => {
+      errorArr.push({
+        name: e.path,
+        message: e.message,
+      });
+    });
+    res.render("private/addPost", {
+      pageTitle: "بخش مدیریت | ساخت پست جدید",
+      path: "/dashboard/add-post",
+      layout: "./layouts/dashLayout",
+      fullname: req.user.fullname,
+      errors: errorArr,
+    });
   }
 };
