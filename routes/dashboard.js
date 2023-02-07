@@ -22,4 +22,10 @@ router.get("/add-post", auth, adminController.getAddPost);
 
 router.post("/add-post", auth, adminController.createPost);
 
+// @desc dashboard handle image upload
+
+//@route POST /dashboard/image-upload
+
+router.post("/image-upload", auth, adminController.uploadImage);
+
 module.exports = router;
