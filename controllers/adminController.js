@@ -1,6 +1,8 @@
 const multer = require("multer");
 const { storage, fileFilter } = require("../utils/multer");
 const Blog = require("../models/Blog");
+const sharp = require("sharp");
+const uuid = require("uuid").v4;
 const { get500 } = require("./errorController");
 
 exports.getDashboard = async (req, res) => {
@@ -56,16 +58,24 @@ exports.uploadImage = (req, res) => {
 
   const upLoad = multer({
     limits: { fieldSize: 4000000 },
-    dest: "uploads/",
-    storage: storage,
+    // dest: "uploads/",
+    // storage: storage,
     fileFilter: fileFilter,
   }).single("image");
 
-  upLoad(req, res, (err) => {
+  upLoad(req, res, async (err) => {
     if (err) {
       res.send(err);
     } else {
       if (req.file) {
+        const fileName = `${uuid()}_${req.file.originalname}`;
+        await sharp(req.file.buffer)
+          .jpeg({
+            quality: 60,
+          })
+
+          .toFile(`./public/uploads/${fileName}`)
+          .catch((err) => console.log(err));
         res.status(200).send("image upload successfull");
       } else {
         res.send("Must select image for upload !!");
