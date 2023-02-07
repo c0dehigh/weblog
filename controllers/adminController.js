@@ -1,3 +1,5 @@
+const multer = require("multer");
+const { storage, fileFilter } = require("../utils/multer");
 const Blog = require("../models/Blog");
 const { get500 } = require("./errorController");
 
@@ -47,4 +49,27 @@ exports.createPost = async (req, res) => {
       errors: errorArr,
     });
   }
+};
+
+exports.uploadImage = (req, res) => {
+  //  let fileName = `${uuid()}.jpg`;
+
+  const upLoad = multer({
+    limits: { fieldSize: 4000000 },
+    dest: "uploads/",
+    storage: storage,
+    fileFilter: fileFilter,
+  }).single("image");
+
+  upLoad(req, res, (err) => {
+    if (err) {
+      res.send(err);
+    } else {
+      if (req.file) {
+        res.status(200).send("image upload successfull");
+      } else {
+        res.send("Must select image for upload !!");
+      }
+    }
+  });
 };
