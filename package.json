@@ -29,6 +29,7 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "sharp": "^0.31.3",
+    "shortid": "^2.2.16",
     "uuid": "^9.0.0",
     "winston": "^3.8.2",
     "yup": "^0.32.11"
