@@ -3,6 +3,7 @@ const { storage, fileFilter } = require("../utils/multer");
 const Blog = require("../models/Blog");
 const sharp = require("sharp");
 const uuid = require("uuid").v4;
+const shortid = require('shortid')
 const { get500 } = require("./errorController");
 
 exports.getDashboard = async (req, res) => {
@@ -65,10 +66,13 @@ exports.uploadImage = (req, res) => {
 
   upLoad(req, res, async (err) => {
     if (err) {
-      res.send(err);
+      if(err.code === "LIMIT_FILE_SIZE") {
+        return res.status(400).res.send("Select image under 4 mg ")
+      }
+      res.status(400).send(err)
     } else {
       if (req.file) {
-        const fileName = `${uuid()}_${req.file.originalname}`;
+        const fileName = `${shortid.generate()}_${req.file.originalname}`;
         await sharp(req.file.buffer)
           .jpeg({
             quality: 60,
@@ -76,7 +80,7 @@ exports.uploadImage = (req, res) => {
 
           .toFile(`./public/uploads/${fileName}`)
           .catch((err) => console.log(err));
-        res.status(200).send("image upload successfull");
+        res.status(200).send(`http://localhost:3000/uploads/${fileName}`);
       } else {
         res.send("Must select image for upload !!");
       }
