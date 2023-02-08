@@ -5,9 +5,16 @@ document.getElementById("imageUpload").onclick = function () {
   const imageStatus = document.getElementById("imageStatus");
   const progressDiv = document.getElementById("progressDiv");
   const progressBar = document.getElementById("progressBar");
+  const uplaodResult = document.getElementById("uploadResult")
 
   xhttp.onreadystatechange = function () {
-    imageStatus.innerHTML = this.responseText;
+    if(xhttp.status === 200){
+      imageStatus.innerHTML = "Image uploaded successful"
+      uplaodResult.innerHTML = this.responseText
+    } else {
+      imageStatus.innerHTML = this.responseText
+    }
+
   };
   xhttp.open("post", "/dashboard/image-upload");
 
