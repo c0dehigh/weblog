@@ -24,7 +24,17 @@
                         <%= blog.status%>
                     </span>
                 </td>
-                <td>text</td>
+                <td>
+
+                    <a href="/dashboard/edit-post/<%= blog._id%>" class="btn btn-sm btn-primary">Edit</a>
+
+                </td>
+
+                <td>
+
+                    <a href="/dashboard/delete-post/<%= blog._id%>" class="btn btn-sm btn-danger">Delete</a>
+
+                </td>
             </tr>
             <%}%>
             </tbody>
