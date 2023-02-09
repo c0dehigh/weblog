@@ -1,9 +1,9 @@
 const multer = require("multer");
-const { storage, fileFilter } = require("../utils/multer");
+const { fileFilter } = require("../utils/multer");
 const Blog = require("../models/Blog");
 const sharp = require("sharp");
-const uuid = require("uuid").v4;
-const shortid = require('shortid')
+
+const shortid = require("shortid");
 const { get500 } = require("./errorController");
 
 exports.getDashboard = async (req, res) => {
@@ -27,6 +27,28 @@ exports.getAddPost = (req, res) => {
     layout: "./layouts/dashLayout",
     fullname: req.user.fullname,
   });
+};
+
+exports.getEditPost = async (req, res) => {
+  const post = await Blog.findOne({
+    _id: req.params.id,
+  });
+
+  if (!post) {
+    return res.redirect("errors/404");
+  }
+
+  if (post.user.toString() != req.user._id) {
+    return res.redirect("/dashboard");
+  } else {
+    res.render("private/editPost", {
+      pageTitle: "Edit post",
+      path: "/dashboard/edit-post",
+      layout: "./layouts/dashLayout",
+      fullname: req.user.fullname,
+      post,
+    });
+  }
 };
 
 exports.createPost = async (req, res) => {
@@ -66,10 +88,10 @@ exports.uploadImage = (req, res) => {
 
   upLoad(req, res, async (err) => {
     if (err) {
-      if(err.code === "LIMIT_FILE_SIZE") {
-        return res.status(400).res.send("Select image under 4 mg ")
+      if (err.code === "LIMIT_FILE_SIZE") {
+        return res.status(400).res.send("Select image under 4 mg ");
       }
-      res.status(400).send(err)
+      res.status(400).send(err);
     } else {
       if (req.file) {
         const fileName = `${shortid.generate()}_${req.file.originalname}`;
