@@ -5,16 +5,16 @@ document.getElementById("imageUpload").onclick = function () {
   const imageStatus = document.getElementById("imageStatus");
   const progressDiv = document.getElementById("progressDiv");
   const progressBar = document.getElementById("progressBar");
-  const uplaodResult = document.getElementById("uploadResult")
+  const uplaodResult = document.getElementById("uploadResult");
 
   xhttp.onreadystatechange = function () {
-    if(xhttp.status === 200){
-      imageStatus.innerHTML = "Image uploaded successful"
-      uplaodResult.innerHTML = this.responseText
+    if (xhttp.status === 200) {
+      imageStatus.innerHTML = "Image uploaded successful";
+      uplaodResult.innerHTML = this.responseText;
+      selectedImage.value = "";
     } else {
-      imageStatus.innerHTML = this.responseText
+      imageStatus.innerHTML = this.responseText;
     }
-
   };
   xhttp.open("post", "/dashboard/image-upload");
 
